@@ -31,7 +31,7 @@ def savepsi(Ny,psi):
 
 # Defines graphic output: |psi|^2 is depicted
 
-def output(x,y,psi,n,t,folder,output_choice,fixmaximum):
+def output(x,y,psi,n,t,folder,output_choice,fixmaximum, V):
 	# Number of figure
 	if (output_choice==2) or (output_choice==3):
 		num =str(int(n))
@@ -45,9 +45,20 @@ def output(x,y,psi,n,t,folder,output_choice,fixmaximum):
 	plt.clf()                       # clears the figure
 	if platform.system() == 'Windows':
 		fig.set_size_inches(8,6)
-	plt.plot(x, abs(psi)**2)  # makes the plot
-	plt.xlabel('$x$')           # format LaTeX if installed (choose axes labels, 
-	plt.ylabel('$|\psi|^2$')    # title of the plot and axes range
+
+	fig, ax1 = plt.subplots()
+	ax2 = ax1.twinx()
+
+	ax1.plot(x, abs(psi)**2)  # makes the plot
+	ax2.plot(x, V, color='r')  # plot the potential
+
+	ax1.set_xlabel('$x$')  # choose axes labels, title of the plot and axes range
+	ax1.set_ylabel('$|\psi|^2$')
+	ax2.set_ylabel('V', color='r')
+
+	# plt.plot(x, abs(psi)**2)  # makes the plot
+	# plt.xlabel('$x$')           # format LaTeX if installed (choose axes labels,
+	# plt.ylabel('$|\psi|^2$')    # title of the plot and axes range
 	plt.title('$t=$ %f'%(t))    # title of the plot
 
 	if fixmaximum>0:              # choose maximum |psi|^2 to be depicted in the vertical axis

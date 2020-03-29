@@ -4,6 +4,7 @@ import os
 from matplotlib import cm
 import shutil
 import platform
+import csv
 
 
 # Builds the (x,y) grid
@@ -12,6 +13,19 @@ def grid(Nx,Ny,xmax,ymax):
 	y = np.linspace(-ymax, ymax-2*ymax/Ny, Ny)     # y variable
 	y,x=np.meshgrid(y, x)
 	return x,y;
+
+
+# loads matrix from csv
+def loader(file_name):
+	if file_name[-3:-1] != "csv":
+		file_name += '.csv'
+	datafile = open(file_name, 'r')
+	datareader = csv.reader(datafile, delimiter=',')
+	data = []
+	for row in datareader:
+		data.append(row)
+	return np.array(data)
+
 
 # Builds the Laplacian in Fourier space
 
@@ -37,7 +51,7 @@ def savepsi(Ny,psi):
 # Defines graphic output: a contour plot two-dimensional figure and the y=0 1d cut. 
 # For both figures, |psi|^2 is depicted
 
-def output(x,y,psi,n,t,folder,output_choice,fixmaximum):
+def output(x,y,psi,n,t,folder,output_choice,fixmaximum, V):
 	# Number of figure
 	if (output_choice==2) or (output_choice==3):
 		num =str(int(n))
@@ -89,10 +103,16 @@ def output(x,y,psi,n,t,folder,output_choice,fixmaximum):
 	if platform.system() == 'Windows':
 		fig.set_size_inches(8,6)
 	Ny=len(y[1,:])
-	plt.plot(x[:,1], toplot[:,int(Ny/2)+1])  # makes the plot
 
-	plt.xlabel('$x$')               # choose axes labels, title of the plot and axes range
-	plt.ylabel('$|\psi|^2$')
+	fig, ax1 = plt.subplots()
+	ax2 = ax1.twinx()
+
+	ax1.plot(x[:,1], toplot[:,int(Ny/2)+1])  # makes the plot
+	ax2.plot(x[:,1], V[:,int(Ny/2)+1], color='r')	  # plot the potential
+
+	ax1.set_xlabel('$x$')               # choose axes labels, title of the plot and axes range
+	ax1.set_ylabel('$|\psi|^2$')
+	ax2.set_ylabel('V', color='r')
 	plt.title('$t=$ %f'%(t))        # title of the plot
 
 	if fixmaximum>0:              # choose maximum |psi|^2 to be depicted in the vertical axis
