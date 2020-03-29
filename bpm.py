@@ -14,8 +14,8 @@ import glob
 print("Starting")
 # Preliminaries (handling directories and files)
 if len(sys.argv) < 2:
-    dimention = "2D"
-    in_file = "Gaussian_Beam_2_particles_2D"
+    dimention = "1D"
+    in_file = "particle_in_a_box_1D"
 else:
     dimention = sys.argv[2]
     in_file = sys.argv[1]
@@ -38,7 +38,6 @@ build = importlib.__import__(dimention)
 x, y = build.grid(my.Nx,my.Ny,my.xmax,my.ymax)        # builds spatial grid
 # TODO: psi should be the state, not the trap
 psi = my.psi_0(x,y)                     # loads initial condition
-spin = my.spin()
 
 L = build.L(my.Nx,my.Ny,my.xmax,my.ymax)        # Laplacian in Fourier space
 linear_phase = np.fft.fftshift(np.exp(1.j*L*my.dt/2))                # linear phase in Fourier space (including point swap)
@@ -47,12 +46,12 @@ border = build.absorb(x,y,my.xmax,my.ymax,my.dt,my.absorb_coeff)    # Absorbing 
 savepsi=np.zeros((my.Nx,my.images+1))     # Creates a vector to save the data of |psi|^2 for the final plot
 steps_image=int(my.tmax/my.dt/my.images)  # Number of computational steps between consecutive graphic outputs
 
-
+V = my.V(x,y,1*my.dt,psi)
 # Main computational loop
 print("calculating", end="", flush=True)
 for j in range(steps_image*my.images+1):        # propagation loop
     if j%steps_image == 0:  # Generates image output 
-        build.output(x,y,psi,int(j/steps_image),j*my.dt,output_folder,my.output_choice,my.fixmaximum)
+        build.output(x,y,psi,int(j/steps_image),j*my.dt,output_folder,my.output_choice,my.fixmaximum, V)
         savepsi[:,int(j/steps_image)]=build.savepsi(my.Ny,psi)
         print(".", end="", flush=True)
 
