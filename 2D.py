@@ -42,6 +42,12 @@ def absorb(x,y,xmax,ymax,dt,absorb_coeff):
 	wy = ymax/40
 	return np.exp(-absorb_coeff*(4-np.tanh((x+xmax)/wx)+np.tanh((x-xmax)/wx)-np.tanh((y+ymax)/wy)+np.tanh((y-ymax)/wy))*dt);
 
+
+def normalize_psi(psi):
+	norm = np.linalg.norm(psi)
+	psi = psi / norm
+	return psi
+
 # Saves the 1D cut at y=0 at different values of t
 
 def savepsi(Ny,psi):

@@ -38,6 +38,7 @@ build = importlib.__import__(dimention)
 x, y = build.grid(my.Nx,my.Ny,my.xmax,my.ymax)        # builds spatial grid
 # TODO: psi should be the state, not the trap
 psi = my.psi_0(x,y)                     # loads initial condition
+psi = build.normalize_psi(psi)
 
 L = build.L(my.Nx,my.Ny,my.xmax,my.ymax)        # Laplacian in Fourier space
 linear_phase = np.fft.fftshift(np.exp(1.j*L*my.dt/2))                # linear phase in Fourier space (including point swap)

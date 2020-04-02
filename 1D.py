@@ -23,6 +23,12 @@ def absorb(x,y,xmax,ymax,dt,absorb_coeff):
 	wx = xmax/20
 	return np.exp(-absorb_coeff*(2-np.tanh((x+xmax)/wx)+np.tanh((x-xmax)/wx))*dt);
 
+
+def normalize_psi(psi):
+	norm = np.linalg.norm(psi)
+	psi = psi / norm
+	return psi
+
 # Saves the data of abs(psi)**2 at different values of t
 
 def savepsi(Ny,psi):

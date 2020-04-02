@@ -10,7 +10,7 @@ dx = xmax / Nx
 dy = ymax / Ny
 distance_unit_x = (Nx / xmax) / 2
 distance_unit_y = (Ny / ymax) / 2
-images = 140				# number of .png images
+images = 60				# number of .png images
 absorb_coeff = 0		# 0 = periodic boundary
 output_choice = 3        # If 1, it plots on the screen but does not save the images
 							# If 2, it saves the images but does not plot on the screen
