@@ -32,7 +32,7 @@ def psi_0(x,y):
 def V(x,y,t,psi):
 	right_wall = 1.5 + t
 	left_wall = -(1.5) + t
-	right = 10 * (np.heaviside([i-right_wall for i in x], 1))
-	left = 10 * (1 - np.heaviside([i-left_wall for i in x], 1))
+	right = 10 * (np.heaviside([i-right_wall for i in x], 1) - np.heaviside([i-(right_wall + 0.2) for i in x], 1))
+	left = 10 * (np.heaviside([i-(left_wall - 0.2) for i in x], 1) - np.heaviside([i-left_wall for i in x], 1))
 
 	return right + left
