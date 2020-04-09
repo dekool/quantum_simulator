@@ -15,7 +15,7 @@ print("Starting")
 # Preliminaries (handling directories and files)
 if len(sys.argv) < 2:
     dimention = "1D"
-    in_file = "particle_in_a_box_1D"
+    in_file = "particle_in_a_harmonic_oscilator_1D_2"
 else:
     dimention = sys.argv[2]
     in_file = sys.argv[1]
